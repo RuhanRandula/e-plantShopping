@@ -4,9 +4,10 @@ import { removeItem, updateQuantity } from './CartSlice';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
-  const cart = useSelector(state => state.cart.items);
+  const cart = useSelector(state => state.cart.items); // Get the cart items from the store
   const dispatch = useDispatch();
-
+  
+  
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
     return cart.reduce((total, item) => {
@@ -18,7 +19,11 @@ const CartItem = ({ onContinueShopping }) => {
   // Handle continue shopping
   const handleContinueShopping = (e) => {
     e.preventDefault();
-    onContinueShopping(); // Call the function passed from the parent component
+    if (typeof onContinueShopping === 'function') {
+      onContinueShopping(); // Call the function passed from the parent component
+    } else {
+      console.error('onContinueShopping is not a function');
+    }
   };
 
   // Handle incrementing the quantity of an item
